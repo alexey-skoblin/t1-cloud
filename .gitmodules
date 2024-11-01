@@ -1,9 +1,9 @@
-[submodule "business-services/team-management-service"]
-	path = business-services/team-management-service
-	url = https://github.com/Natalya-Talalova/team-management-service
+[submodule "business-services/team-service"]
+	path = business-services/team-service
+	url = git@github.com:Natalya-Talalova/team-management-service.git
 [submodule "business-services/user-profile-service"]
 	path = business-services/user-profile-service
-	url = https://github.com/HeadMaxResh/Profile
+	url = git@github.com:HeadMaxResh/Profile.git
 [submodule "web"]
 	path = web
-	url = https://github.com/doctorwhat1/next-js-app
+	url = git@github.com:doctorwhat1/next-js-app.git
