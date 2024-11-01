@@ -4,3 +4,6 @@
 [submodule "business-services/user-profile-service"]
 	path = business-services/user-profile-service
 	url = https://github.com/HeadMaxResh/Profile
+[submodule "web"]
+	path = web
+	url = https://github.com/doctorwhat1/next-js-app
