@@ -1,18 +1,27 @@
+server:
+  port: 8000  # Порт, на котором будет работать ваш API Gateway
+
 spring:
   application:
-    name: api-gateway
+    name: api-gateway  # Имя вашего приложения
   cloud:
     gateway:
+      routes:
+          id: team_service_route
+          uri: lb://team-service
+          predicates:
+            - Path=/team-service/**
       discovery:
         locator:
-          enabled: true
-          lower-case-service-id: true
+          enabled: true  # Включает автоматическое обнаружение маршрутов из Eureka
+          lower-case-service-id: true  # Преобразует ID сервисов в нижний регистр
       httpclient:
-        connect-timeout: 5000
-        response-timeout: 3000
+        connect-timeout: 5000  # Таймаут соединения в миллисекундах (5 секунд)
+        response-timeout: 3000  # Таймаут ожидания ответа (3 секунды)
       globalcors:
         corsConfigurations:
           '[/**]':
+            allowedOriginPatterns: [ "*" ]  # Разрешает доступ с любого домена
             allowCredentials: true
             allowedHeaders: "*"
             allowedMethods:
@@ -21,49 +30,17 @@ spring:
               - PUT
               - OPTIONS
 
-server:
-  port: 8000
-
 eureka:
-  client:
-    fetch-registry: true
-    register-with-eureka: true
-    registry-fetch-interval-seconds: 5
-    instance-info-replication-interval-seconds: 5
   instance:
-    lease-renewal-interval-in-seconds: 10
-    lease-expiration-duration-in-seconds: 30
+    lease-renewal-interval-in-seconds: 10  # частота отправки heartbeats, по умолчанию 30
+    lease-expiration-duration-in-seconds: 90  # время ожидания перед отключением инстанса, по умолчанию 90
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/  # URL вашего Eureka сервера
+    fetch-registry: true  # Включает получение реестра сервисов из Eureka
+    register-with-eureka: true  # Регистрирует этот сервис в Eureka
 
 logging:
   level:
-    org:
-      springframework:
-        cloud:
-          gateway: DEBUG
-    reactor:
-      netty:
-        http:
-          client: DEBUG
-
-#management:
-#  endpoints:
-#    web:
-#      exposure:
-#        include: "*"
-#  endpoint:
-#    health:
-#      show-details: always
-
-# Uncomment the following section if you want to include the default filters with retry
-# spring:
-#   cloud:
-#     gateway:
-#       default-filters:
-#         - name: Retry
-#           args:
-#             retries: 3
-#             statuses:
-#               - BAD_GATEWAY
-#             methods:
-#               - GET
-#               - POST
+    org.springframework.cloud.gateway: DEBUG  # Устанавливает уровень логирования для шлюза
+    reactor.netty.http.client: DEBUG  # Устанавливает уровень логирования для HTTP клиента Netty
