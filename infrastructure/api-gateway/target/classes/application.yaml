@@ -4,10 +4,14 @@ server:
 spring:
   application:
     name: api-gateway  # Имя вашего приложения
+  security:
+    oauth2:
+      authorizationserver:
+        issuer: http://auth-server:9000
   cloud:
     gateway:
       routes:
-          id: team_service_route
+        - id: team_service_route
           uri: lb://team-service
           predicates:
             - Path=/team-service/**
