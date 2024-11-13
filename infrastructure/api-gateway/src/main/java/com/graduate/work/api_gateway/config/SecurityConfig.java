@@ -27,8 +27,9 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeExchange(exchanges -> exchanges
-                        .pathMatchers("/auth/**").permitAll()
-                        .anyExchange().authenticated()
+//                        .pathMatchers("/auth/**").permitAll()
+//                        .anyExchange().authenticated()
+                    .anyExchange().permitAll()
                 )
                 .exceptionHandling(exceptionHandlingSpec -> exceptionHandlingSpec
                         .authenticationEntryPoint((exchange, ex) -> Mono.fromRunnable(() -> {

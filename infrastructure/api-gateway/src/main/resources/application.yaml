@@ -20,19 +20,19 @@ spring:
           enabled: true  # Включает автоматическое обнаружение маршрутов из Eureka
           lower-case-service-id: true  # Преобразует ID сервисов в нижний регистр
       httpclient:
-        connect-timeout: 10000  # Таймаут соединения в миллисекундах (5 секунд)
-        response-timeout: 6000  # Таймаут ожидания ответа (3 секунды)
-      globalcors:
-        corsConfigurations:
-          '[/**]':
-            allowedOriginPatterns: [ "*" ]  # Разрешает доступ с любого домена
-            allowCredentials: true
-            allowedHeaders: "*"
-            allowedMethods:
-              - GET
-              - POST
-              - PUT
-              - OPTIONS
+        connect-timeout: 10000  # Таймаут соединения в миллисекундах (10 секунд)
+        response-timeout: 10000  # Таймаут ожидания ответа (10 секунд)
+  #      globalcors:
+  #        corsConfigurations:
+  #          '[/**]':
+  #            allowedOriginPatterns: [ "*" ]  # Разрешает доступ с любого домена
+  #            allowCredentials: false
+  #            allowedHeaders: "*"
+  #            allowedMethods:
+  #              - GET
+  #              - POST
+  #              - PUT
+  #              - OPTIONS
 
 eureka:
   instance:
@@ -45,15 +45,15 @@ eureka:
     fetch-registry: true  # Включает получение реестра сервисов из Eureka
     register-with-eureka: true  # Регистрирует этот сервис в Eureka
 
-logging:
-  level:
-      org.springframework.cloud.gateway: TRACE  # Уровень TRACE для всех компонентов API Gateway
-      org.springframework.web.reactive.function.client: DEBUG  # Логирование HTTP-запросов
-      org.springframework.http.server.reactive: DEBUG  # Логирование реактивного сервера HTTP
-      reactor.netty.http.client: DEBUG  # Логирование запросов HTTP клиента Netty
-      reactor.netty.http.server: DEBUG  # Логирование ответов HTTP сервера Netty
-  pattern:
-    console: "%C{1.} [%-5level] %d{HH:mm:ss} - %msg%n"  # Формат логирования в консоли
+#logging:
+#  level:
+#      org.springframework.cloud.gateway: TRACE  # Уровень TRACE для всех компонентов API Gateway
+#      org.springframework.web.reactive.function.client: DEBUG  # Логирование HTTP-запросов
+#      org.springframework.http.server.reactive: DEBUG  # Логирование реактивного сервера HTTP
+#      reactor.netty.http.client: DEBUG  # Логирование запросов HTTP клиента Netty
+#      reactor.netty.http.server: DEBUG  # Логирование ответов HTTP сервера Netty
+#  pattern:
+#    console: "%C{1.} [%-5level] %d{HH:mm:ss} - %msg%n"  # Формат логирования в консоли
 
 app:
   jwtSecret: IWwEgCRPjQzqFslIEAr4a6CSYFJqM8U/asBZOrQkIDBd55h+ZT6obZ5YyDnqdLzRN+im9a1uiIJqy/9Ht3rAHQ==

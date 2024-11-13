@@ -1,0 +1,50 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres_container
+    environment:
+      POSTGRES_USER: postgres_user
+      POSTGRES_PASSWORD: postgres_password
+      POSTGRES_DB: postgres_db
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5430:5432"
+    command: >
+      postgres -c max_connections=1000
+               -c shared_buffers=256MB
+               -c effective_cache_size=768MB
+               -c maintenance_work_mem=64MB
+               -c checkpoint_completion_target=0.7
+               -c wal_buffers=16MB
+               -c default_statistics_target=100
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres_user -d postgres_db" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    restart: unless-stopped
+    tty: true
+    stdin_open: true
+
+  app:
+    image: team-management-service:latest # Это имя должно соответствовать имени созданного образа
+    build:
+      context: business-services/team-service # Указывает на текущую директорию, где находятся Dockerfile и проект
+      dockerfile: business-services/team-service/Dockerfile
+    container_name: app_container
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_container:5432/postgres_db
+      SPRING_DATASOURCE_USERNAME: postgres_user
+      SPRING_DATASOURCE_PASSWORD: postgres_password
+      REDIS_HOST:
+      REDIS_PORT:
+      REDIS_DATABASE:
+      REDIS_USERNAME:
+      REDIS_PASSWORD:
+    ports:
+      - "5000:8080" # Экспонируем внутренний порт 8080 на внешний порт 5000
+    depends_on:
+      - postgres
+    restart: unless-stopped
+    tty: true
+    stdin_open: true
